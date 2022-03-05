@@ -1,0 +1,17 @@
+# If we attach this file to a Pod, Kubernetes must find an instance of storage
+# (a slice of hardware that meets these requirement)
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+    name: database-persistent-volume-claim
+spec:
+    # We want to get some storage that can be used by a single node at a time
+    accessModes:
+        - ReadWriteOnce
+    # The storage has to have exactly 2 GB of space
+    resources:
+        requests:
+            storage: 2Gi
+    # Other options (only change if you don't want to use the default option)
+    # https://kubernetes.io/docs/concepts/storage/storage-classes/
+    #storageClassName:

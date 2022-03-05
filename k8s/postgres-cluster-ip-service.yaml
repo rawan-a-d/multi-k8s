@@ -1,0 +1,14 @@
+# Manage access to running Postgres
+apiVersion: v1
+kind: Service
+metadata:
+    name: postgres-cluster-ip-service
+spec:
+    type: ClusterIP
+    selector:
+        component: postgres
+    ports:
+        # the port other objects/clusters use to access the Postgres Pod
+        - port: 5432
+          # Postgres pod
+          targetPort: 5432

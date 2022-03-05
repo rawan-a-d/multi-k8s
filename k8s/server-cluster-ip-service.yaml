@@ -1,0 +1,15 @@
+# Manage access to running Express API
+apiVersion: v1
+kind: Service
+metadata:
+    name: server-cluster-ip-service
+spec:
+    type: ClusterIP
+    # What pods will this service give access to
+    selector:
+        component: server
+    ports:
+        # the port other objects/clusters use to access the server Pod
+        - port: 5000
+          # multi-server pod
+          targetPort: 5000

@@ -1,0 +1,14 @@
+# Manage access to running Redis
+apiVersion: v1
+kind: Service
+metadata:
+    name: redis-cluster-ip-service
+spec:
+    type: ClusterIP
+    selector:
+        component: redis
+    ports:
+        # the port other objects/clusters use to access the Redis Pod
+        - port: 6379
+          # Redis pod
+          targetPort: 6379

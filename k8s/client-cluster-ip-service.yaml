@@ -1,0 +1,14 @@
+# Manage access to running React app
+apiVersion: v1
+kind: Service
+metadata:
+    name: client-cluster-ip-service
+spec:
+    type: ClusterIP
+    selector:
+        component: web
+    ports:
+        # the port other objects/clusters use to access the client Pod
+        - port: 3000
+          # multi-client pod
+          targetPort: 3000
