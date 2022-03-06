@@ -1,8 +1,14 @@
 sudo: required
 services:
     - docker
+env:
+    global:
+        # get the current commit sha and assign it to an environment variable
+        - GIT_SHA=$(git rev-parse HEAD)
+        # Configure cloudsdk not to display any prompts that require user input
+        - CLOUDSDK_CORE_DISABLE_PROMPTS=1
 before_install:
-    # Use the encrypted version stored on Travis and decrypt it
+    # Use the encrypted version stored on Travis and decrypt it (the file is then placed in root project directory)
     - openssl aes-256-cbc -K $encrypted_9f3b5599b056_key -iv $encrypted_9f3b5599b056_iv -in service-account.json.enc -out service-account.json -d
 
     # Install Google Cloud SDK CLI
@@ -14,15 +20,25 @@ before_install:
     # Configure the SDK with our Google Cloud auth info using service-account.json file
     - gcloud auth activate-service-account --key-file service-account.json
 
-    -
+    # Specify project, zone and cluster on Google Cloud
+    - gcloud config set project multi-k8s-343222
+    - gcloud config set compute/zone europe-west4-a
+    - gcloud container clusters get-credentials multi-cluster
+
     # Login to Docker CLI
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
     # Build the 'test' version of multi-client
+    - docker build -t rawanad/react-test -f ./client/Dockerfile.dev ./client
+
+script:
     # Run tests
+    - docker run -e CI=true rawanad/react-test npm test
 
-    # if tests are successful, run a script to deploy newest images
-
-    # Build all our images, tag each one, push each to docker hub
-    # Apply all configs in the 'k8s' folder
-
-    # Imperatively set latest images on each deployment
+# If tests are successful, run a script to deploy newest images
+deploy:
+    # Run the script file when we push to master
+    provider: script
+    script: bash ./deploy.sh
+    on:
+        branch: master

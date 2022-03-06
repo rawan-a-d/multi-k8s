@@ -1,4 +1,4 @@
-# to run the app
+# To run the app
 
 From the root directory run:
 
