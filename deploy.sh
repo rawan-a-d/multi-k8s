@@ -15,6 +15,6 @@ docker push rawanad/multi-worker:$GIT_SHA
 kubectl apply -f k8s
 
 # Imperatively set latest images on each deployment
-kubectl set image deployments/server-deployment server=rawanad/multi-server:$SHA
-kubectl set image deployments/client-deployment client=rawanad/multi-client:$SHA
-kubectl set image deployments/worker-deployment worker=rawanad/multi-worker:$SHA
+kubectl set image deployments/server-deployment server=rawanad/multi-server:$GIT_SHA
+kubectl set image deployments/client-deployment client=rawanad/multi-client:$GIT_SHA
+kubectl set image deployments/worker-deployment worker=rawanad/multi-worker:$GIT_SHA
