@@ -5,7 +5,7 @@ metadata:
     name: handiwork-nl-tls
 spec:
     secretName: handiwork-nl
-    # Reference to issuer
+    # reference to issuer
     issuerRef:
         name: letsencrypt-prod
         kind: ClusterIssuer
