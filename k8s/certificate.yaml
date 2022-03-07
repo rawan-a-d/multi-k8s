@@ -1,0 +1,15 @@
+# Describes the certificate we are trying to obtain
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+    name: handiwork-nl-tls
+spec:
+    secretName: handiwork-nl
+    # Reference to issuer
+    issuerRef:
+        name: letsencrypt-prod
+        kind: ClusterIssuer
+    commonName: handiwork.nl
+    dnsNames:
+        - handiwork.nl
+        - www.handiwork.nl

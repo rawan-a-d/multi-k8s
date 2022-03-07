@@ -1,0 +1,17 @@
+# Tells the Cert Manager where it should go to get a certificate
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+    # Issuer source
+    name: letsencrypt-prod
+spec:
+    acme:
+        server: https://acme-v02.api.letsencrypt.org/directory
+        email: 'test@test.com'
+        # a key sent by LetsEncrypt during verification
+        privateKeySecretRef:
+            name: letsencrypt-prod
+        solvers:
+            - http01:
+                  ingress:
+                      class: nginx
